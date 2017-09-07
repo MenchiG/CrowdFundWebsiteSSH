@@ -1,5 +1,5 @@
-#Intro
-A website based on
-*Struts2
-*Spring4
-*Hibernate5
+# Intro
+A crowdfunding website based on
+* Struts2
+* Spring4
+* Hibernate5
