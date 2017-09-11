@@ -41,3 +41,9 @@ CrowdFundWebsiteSSH.iml
 .idea/
 out/
 target/
+mysql/
+
+src/main/webapp/*
+!src/main/webapp/WEB-INF
+!src/main/webapp/index.action
+

@@ -1,0 +1,13 @@
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="edu.nyu.cf.follow.Follow" table="follow">
+        <id name="fid" column="fid">
+            <generator class="native"/>
+        </id>
+        <many-to-one name="user" class="edu.nyu.cf.user.User" column="uid" lazy="false"/>
+        <many-to-one name="followUser" class="edu.nyu.cf.user.User" column="fuid" lazy="false"/>
+
+    </class>
+</hibernate-mapping>

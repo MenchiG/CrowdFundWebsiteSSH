@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <constant name="struts.devMode" value="false"/>
+
+    <package name="default" namespace="/" extends="struts-default">
+
+        <action name="index" class="indexAction">
+            <result name="indexSuccess">/WEB-INF/jsp/index.jsp</result>
+        </action>
+
+
+        <action name="user_*" class="userAction" method="{1}">
+            <result name="registerPage">/WEB-INF/jsp/register.jsp</result>
+            <result name="loginPage">/WEB-INF/jsp/login.jsp</result>
+            <result name="backToIndex" type="redirectAction">index</result>
+            <result name="userPage">/WEB-INF/jsp/user.jsp</result>
+            <result name="backToUserPage" type="redirectAction">user_userPage?uid=${model.uid}</result>
+
+        </action>
+
+        <action name="project_*" class="projectAction" method="{1}">
+            <result name="findByPageSuccess">/WEB-INF/jsp/projects.jsp</result>
+            <result name="findByPidSuccess">/WEB-INF/jsp/singleProject.jsp</result>
+            <result name="newProjectPageSuccess">/WEB-INF/jsp/newProject.jsp</result>
+            <result name="newProjectInput">/WEB-INF/jsp/newProject.jsp</result>
+            <result name="checkProject" type="redirectAction">project_checkProject?pid=${model.pid}</result>
+            <result name="backToProjectPage" type="redirectAction">project_showProject?pid=${model.pid}</result>
+            <result name="searchResultPage">/WEB-INF/jsp/searchResult.jsp</result>
+        </action>
+
+        <action name="sponser_*" class="sponserAction" method="{1}">
+            <result name="sponseProjectSuccess" type="redirectAction">project_checkProject?pid=${model.project.pid}
+            </result>
+        </action>
+
+        <action name="comment_*" class="commentAction" method="{1}">
+            <result name="postCommentSuccess" type="redirectAction">project_findByPid?pid=${model.project.pid}</result>
+        </action>
+    </package>
+</struts>

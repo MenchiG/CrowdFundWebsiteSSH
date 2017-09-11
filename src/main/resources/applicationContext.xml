@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd"> <!-- bean definitions here -->
+
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+
+
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${jdbc.driver}"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="user" value="${jdbc.user}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.format_sql">true</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.connection.autocommit">false</prop>
+            </props>
+        </property>
+
+        <property name="mappingResources">
+            <list>
+                <value>mapping/User.hbm.xml</value>
+                <value>mapping/Project.hbm.xml</value>
+                <value>mapping/Comment.hbm.xml</value>
+                <value>mapping/Sponser.hbm.xml</value>
+                <value>mapping/Follow.hbm.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    <!--Action-->
+    <bean id="indexAction" class="edu.nyu.cf.index.IndexAction" scope="prototype">
+        <property name="projectService" ref="projectService"/>
+        <property name="commentService" ref="commentService"/>
+    </bean>
+    <bean id="userAction" class="edu.nyu.cf.user.UserAction" scope="prototype">
+        <property name="userService" ref="userService"/>
+        <property name="followService" ref="followService"/>
+    </bean>
+    <bean id="projectAction" class="edu.nyu.cf.project.ProjectAction" scope="prototype">
+        <property name="projectService" ref="projectService"/>
+        <property name="sponserService" ref="sponserService"/>
+        <property name="commentService" ref="commentService"/>
+    </bean>
+    <bean id="sponserAction" class="edu.nyu.cf.sponser.SponserAction" scope="prototype">
+        <property name="sponserService" ref="sponserService"/>
+        <property name="projectService" ref="projectService"/>
+    </bean>
+    <bean id="commentAction" class="edu.nyu.cf.comment.CommentAction" scope="prototype">
+        <property name="commentService" ref="commentService"/>
+        <property name="projectService" ref="projectService"/>
+    </bean>
+
+
+    <!--Service-->
+    <bean id="userService" class="edu.nyu.cf.user.UserService">
+        <property name="userDao" ref="userDao"/>
+    </bean>
+
+    <bean id="projectService" class="edu.nyu.cf.project.ProjectService">
+        <property name="projectDao" ref="projectDao"/>
+    </bean>
+
+    <bean id="followService" class="edu.nyu.cf.follow.FollowService">
+        <property name="followDao" ref="followDao"/>
+    </bean>
+
+    <bean id="commentService" class="edu.nyu.cf.comment.CommentService">
+        <property name="commentDao" ref="commentDao"/>
+    </bean>
+
+    <bean id="sponserService" class="edu.nyu.cf.sponser.SponserService">
+        <property name="sponserDao" ref="sponserDao"/>
+    </bean>
+
+    <!--Dao-->
+    <bean id="userDao" class="edu.nyu.cf.user.UserDao">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="projectDao" class="edu.nyu.cf.project.ProjectDao">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="followDao" class="edu.nyu.cf.follow.FollowDao">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="commentDao" class="edu.nyu.cf.comment.CommentDao">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="sponserDao" class="edu.nyu.cf.sponser.SponserDao">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+</beans>
