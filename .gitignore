@@ -36,11 +36,8 @@
 ehthumbs.db
 Thumbs.db
 
-
-website/web/images
-website/web/font-awesome
-website/web/fonts
-website/out
-website/.idea
-website/*.iml
-website/src/jdbc.*
+#pom.xml
+CrowdFundWebsiteSSH.iml
+.idea/
+out/
+target/
