@@ -1,5 +1,7 @@
 # Intro
-A crowdfunding website based on
+A crowdfunding website
+
+# Features
 * Struts2
 * Spring4
 * Hibernate5
